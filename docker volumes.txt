@@ -1,0 +1,43 @@
+docker volumes
+
+-v volumes
+to run local changes to docker use 
+pwd only use in git bash
+
+docker run -p 3000:3000 -v $(pwd):/app image id 
+
+for frontend use nginx for server in production 
+nginx is web server
+
+to use in prodction in react (npm run build)
+
+need two images to pull node and nginx
+
+FROM node:current-alpine as builder
+
+WORKDIR /app
+
+COPY package.json .
+
+RUN npm install
+
+COPY . .
+
+RUN npm run build
+
+FROM nginx
+
+COPY --from=builder /app/build /usr/share/nginx/html
+
+here builder is first result of image that we build 
+example after runing npm run build react creates build folder 
+we need to pull the build folder from builder  we define as builder 
+after build sucessfully we can use it in nginx server
+
+we to pull nginx from docker 
+
+copy from builder(the build folder from node image we created ) give path of docker react build folder 
+to nginx where we to add in nginx default path (we can found in dockerhub nginx)
+
+note default port to run image the port of default nginx is 80
+example docker run -p 8080:80 image name or id 
