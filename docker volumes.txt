@@ -41,3 +41,27 @@ to nginx where we to add in nginx default path (we can found in dockerhub nginx)
 
 note default port to run image the port of default nginx is 80
 example docker run -p 8080:80 image name or id 
+
+travis ci Cd 
+tell travis we need a copy of docker runing
+
+build our image using Dockerfile
+
+tell travis how to run our test suite
+
+tell travis how to deploy our code to aws
+
+create .travis.yml file
+ in travis.yml
+
+
+ language: generic
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t kalpesh1999/docker-react -f Dockerfile.dev .
+
+script:
+ - docker run -e CI=true kalpesh1999/docker-react npm run test
